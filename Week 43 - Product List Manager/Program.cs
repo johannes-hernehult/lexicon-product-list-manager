@@ -1,9 +1,6 @@
-﻿Console.WriteLine(
-    "----------------------------------------\n PRODUCT LIST MANAGER - LEVEL 1\n----------------------------------------");
-
-// Ask for products in a while loop
-// Store products in a list
-// exit in any shape breaks the while loop and displays all products added
+﻿Console.WriteLine("----------------------------------------");
+Console.WriteLine("PRODUCT LIST MANAGER - LEVEL 1");
+Console.WriteLine("----------------------------------------");
 
 List<string> products = new List<string>();
 
@@ -17,6 +14,10 @@ while (true)
     products.Add(input);
 }
 
+//Sort list
+products.Sort();
+
+//Print all added products sorted
 Console.ForegroundColor = ConsoleColor.Blue;
 Console.WriteLine();
 Console.WriteLine("---------------------------------------");
@@ -25,4 +26,5 @@ foreach (string product in products)
 {
     Console.WriteLine(product);
 }
+
 Console.WriteLine("---------------------------------------");
