@@ -1,0 +1,15 @@
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/bin/Debug/net10.0/Week 43 - Product List Manager
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/bin/Debug/net10.0/Week 43 - Product List Manager.deps.json
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/bin/Debug/net10.0/Week 43 - Product List Manager.runtimeconfig.json
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/bin/Debug/net10.0/Week 43 - Product List Manager.dll
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/bin/Debug/net10.0/Week 43 - Product List Manager.pdb
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.GeneratedMSBuildEditorConfig.editorconfig
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.AssemblyInfoInputs.cache
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.AssemblyInfo.cs
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.csproj.CoreCompileInputs.cache
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.sourcelink.json
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.dll
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/refint/Week 43 - Product List Manager.dll
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.pdb
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/Week 43 - Product List Manager.genruntimeconfig.cache
+/home/lexicon-studies/RiderProjects/Week 43 - Product List Manager/Week 43 - Product List Manager/obj/Debug/net10.0/ref/Week 43 - Product List Manager.dll
