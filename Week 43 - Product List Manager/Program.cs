@@ -1,10 +1,13 @@
 ﻿using System.Text.RegularExpressions;
 
-Console.WriteLine("----------------------------------------");
-Console.WriteLine("PRODUCT LIST MANAGER - LEVEL 3");
-Console.WriteLine("----------------------------------------");
-
 List<string> products = [];
+
+const int minNumber = 200;
+const int maxNumber = 500;
+const string Divider = "----------------------------------------";
+
+
+PrintHeading("PRODUCT LIST MANAGER - LEVEL 3");
 
 while (true)
 {
@@ -13,39 +16,16 @@ while (true)
 
     input = input.Trim().ToUpper(); //Normalizing input
 
-    if (input == "EXIT")
-    {
-        Console.WriteLine("Exiting program...");
-        break;
-    }
+    if (input == "EXIT") break;
 
-    string? error = GetValidationError(input);
-    if (error is not null)
-    {
-        Console.ForegroundColor = ConsoleColor.Red;
-        Console.WriteLine(error);
-        Console.ResetColor();
-        continue;
-    }
+    if (!TryAcceptProduct(input)) continue;
 
     products.Add(input);
 }
 
-//Sort list
 products.Sort();
 
-//Print all added products sorted
-Console.ForegroundColor = ConsoleColor.Blue;
-Console.WriteLine();
-Console.WriteLine("---------------------------------------");
-Console.WriteLine("All products:");
-foreach (string product in products)
-{
-    Console.WriteLine(product);
-}
-
-Console.WriteLine("---------------------------------------");
-Console.ResetColor();
+PrintProducts(products);
 
 //Helper functions
 static string? GetValidationError(string input)
@@ -66,8 +46,49 @@ static string? GetValidationError(string input)
     if (!Regex.IsMatch(rightSide, @"^[0-9]+\z"))
         return "The right side must contain numbers only.";
 
-    if (!int.TryParse(rightSide, out int number) || number < 200 || number > 500)
-        return "The numeric part must be between 200 and 500.";
-
+    if (!int.TryParse(rightSide, out int number) || number < minNumber || number > maxNumber)
+        return $"The numeric part must be between {minNumber} and {maxNumber}.";
+    
     return null;
+}
+
+static bool TryAcceptProduct(string input)
+{
+    string? error = GetValidationError(input);
+    if (error is null)
+        return true;
+
+    Console.ForegroundColor = ConsoleColor.Red;
+    Console.WriteLine(error);
+    Console.ResetColor();
+    return false;
+}
+
+static void PrintHeading(string title)
+{
+    Console.WriteLine(Divider);
+    Console.WriteLine(title);
+    Console.WriteLine(Divider);
+}
+
+static void PrintProducts(List<string> prod)
+{
+    Console.ForegroundColor = ConsoleColor.Blue;
+    Console.WriteLine();
+
+    if (prod.Count == 0)
+    {
+        PrintHeading("No products found.");
+    }
+    else
+    {
+        PrintHeading("All products:");
+
+        foreach (string product in prod)
+            Console.WriteLine(" - " + product);
+
+        Console.WriteLine(Divider);
+    }
+
+    Console.ResetColor();
 }
