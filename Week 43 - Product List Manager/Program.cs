@@ -57,8 +57,8 @@ static string? GetValidationError(string input)
     if (dashIndex == -1)
         return "Product must contain a dash (-).";
 
-    string leftSide = input[..dashIndex];
-    string rightSide = input[(dashIndex + 1)..];
+    string leftSide = input.Substring(0, dashIndex);
+    string rightSide = input.Substring(dashIndex + 1);
 
     if (!Regex.IsMatch(leftSide, @"^[A-Z]+\z"))
         return "The left side must contain letters only.";
