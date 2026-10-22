@@ -1,7 +1,7 @@
 ﻿using System.Text.RegularExpressions;
 
 Console.WriteLine("----------------------------------------");
-Console.WriteLine("PRODUCT LIST MANAGER - LEVEL 1");
+Console.WriteLine("PRODUCT LIST MANAGER - LEVEL 3");
 Console.WriteLine("----------------------------------------");
 
 List<string> products = [];
