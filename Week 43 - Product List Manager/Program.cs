@@ -1,4 +1,6 @@
-﻿Console.WriteLine("----------------------------------------");
+﻿using System.Text.RegularExpressions;
+
+Console.WriteLine("----------------------------------------");
 Console.WriteLine("PRODUCT LIST MANAGER - LEVEL 1");
 Console.WriteLine("----------------------------------------");
 
@@ -9,17 +11,20 @@ while (true)
     Console.Write("Enter a product name: ");
     string input = Console.ReadLine() ?? "";
 
-    if (IsExit(input)) break;
+    input = input.Trim().ToUpper(); //Normalizing input
 
-    if (IsEmptyString(input))
+    if (input == "EXIT")
     {
-        Console.WriteLine("Product name can not be empty...");
-        continue;
+        Console.WriteLine("Exiting program...");
+        break;
     }
 
-    if (!IsValidProductName(input))
+    string? error = GetValidationError(input);
+    if (error is not null)
     {
-        Console.WriteLine("Invalid product name...");
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine(error);
+        Console.ResetColor();
         continue;
     }
 
@@ -43,18 +48,26 @@ Console.WriteLine("---------------------------------------");
 Console.ResetColor();
 
 //Helper functions
-static bool IsExit(string input)
+static string? GetValidationError(string input)
 {
-    return input.Trim().ToLower() == "exit";
-}
+    if (string.IsNullOrWhiteSpace(input))
+        return "Input cannot be empty.";
 
-static bool IsEmptyString(string input)
-{
-    return string.IsNullOrWhiteSpace(input);
-}
+    int dashIndex = input.IndexOf('-');
+    if (dashIndex == -1)
+        return "Product must contain a dash (-).";
 
-static bool IsValidProductName(string input)
-{
-    //TODO: Flesh out product name validation here
-    return false;
+    string leftSide = input[..dashIndex];
+    string rightSide = input[(dashIndex + 1)..];
+
+    if (!Regex.IsMatch(leftSide, @"^[A-Z]+\z"))
+        return "The left side must contain letters only.";
+
+    if (!Regex.IsMatch(rightSide, @"^[0-9]+\z"))
+        return "The right side must contain numbers only.";
+
+    if (!int.TryParse(rightSide, out int number) || number < 200 || number > 500)
+        return "The numeric part must be between 200 and 500.";
+
+    return null;
 }
