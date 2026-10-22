@@ -4,7 +4,7 @@ List<string> products = [];
 
 const int minNumber = 200;
 const int maxNumber = 500;
-const string Divider = "----------------------------------------";
+const string divider = "----------------------------------------";
 
 
 PrintHeading("PRODUCT LIST MANAGER - LEVEL 3");
@@ -66,9 +66,9 @@ static bool TryAcceptProduct(string input)
 
 static void PrintHeading(string title)
 {
-    Console.WriteLine(Divider);
+    Console.WriteLine(divider);
     Console.WriteLine(title);
-    Console.WriteLine(Divider);
+    Console.WriteLine(divider);
 }
 
 static void PrintProducts(List<string> prod)
@@ -87,7 +87,7 @@ static void PrintProducts(List<string> prod)
         foreach (string product in prod)
             Console.WriteLine(" - " + product);
 
-        Console.WriteLine(Divider);
+        Console.WriteLine(divider);
     }
 
     Console.ResetColor();
