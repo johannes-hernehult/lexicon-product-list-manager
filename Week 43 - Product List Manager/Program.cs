@@ -7,7 +7,7 @@ const int maxNumber = 500;
 const string divider = "----------------------------------------";
 
 
-PrintHeading("PRODUCT LIST MANAGER - LEVEL 3");
+PrintHeading("PRODUCT LIST MANAGER - LEVEL 4");
 
 while (true)
 {
@@ -31,23 +31,23 @@ PrintProducts(products);
 static string? GetValidationError(string input)
 {
     if (string.IsNullOrWhiteSpace(input))
-        return "Input cannot be empty.";
+        return "ERROR: Input cannot be empty.";
 
     int dashIndex = input.IndexOf('-');
     if (dashIndex == -1)
-        return "Product must contain a dash (-).";
+        return "ERROR: Product must contain a dash (-).";
 
     string leftSide = input.Substring(0, dashIndex);
     string rightSide = input.Substring(dashIndex + 1);
 
     if (!Regex.IsMatch(leftSide, @"^[A-Z]+\z"))
-        return "The left side must contain letters only.";
+        return "ERROR: The left side must contain letters only.";
 
     if (!Regex.IsMatch(rightSide, @"^[0-9]+\z"))
-        return "The right side must contain numbers only.";
+        return "ERROR: The right side must contain numbers only.";
 
     if (!int.TryParse(rightSide, out int number) || number < minNumber || number > maxNumber)
-        return $"The numeric part must be between {minNumber} and {maxNumber}.";
+        return $"ERROR: The numeric part must be between {minNumber} and {maxNumber}.";
     
     return null;
 }
