@@ -6,7 +6,7 @@ Master branch contains the latest version.
 
 I am doing my projects in JetBrains Rider in a Linux environment, so there seems to be more files than necessary in the repo. The project is under the folder ***Week 43 - Product List Manager > Program.cs***
 
-Screenshots:
+## Screenshots:
 
 **Entry point**
 <img width="903" height="439" alt="image" src="https://github.com/user-attachments/assets/07b7fe58-1556-4620-ba56-30fde5037b21" />
