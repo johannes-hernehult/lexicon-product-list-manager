@@ -105,6 +105,7 @@ List<string> products = new List<string>();
 List<string> menuItems = new List<string>
 {
     "1 - Add Product",
+    "2 - View Products",
     "0 - Exit",
 };
 string menuSelection = "";
@@ -112,11 +113,13 @@ string menuSelection = "";
 do
 {
     RenderMenu(menuItems);
-    menuSelection = Console.ReadLine();
+    RenderTextInline("Select menu item: ");
+    menuSelection = Console.ReadLine().Trim();
 
     switch (menuSelection)
     {
         case "1": AddProduct(); break;
+        case "2": ViewProducts(); break;
         case "0": RenderFeedback("Shutting down...", FeedbackType.Info); break;
         default: RenderFeedback($"Invalid selection: {menuSelection}", FeedbackType.Error); break;
     }
@@ -134,13 +137,22 @@ void AddProduct()
         if (error is not null)
         {
             RenderFeedback(error, FeedbackType.Error);
-            continue; 
+            continue;
         }
 
         products.Add(product);
         RenderFeedback($"{product} added.", FeedbackType.Success);
-        return; 
+        return;
     }
+}
+
+void ViewProducts()
+{
+    RenderHeading("Products");
+    RenderList(products);
+    RenderDivider();
+    RenderText("Press enter to go back to main menu");
+    Console.ReadLine();
 }
 
 // Helper Functions
@@ -148,7 +160,6 @@ string NormalizeString(string text)
 {
     return text.Trim().ToUpper();
 }
-
 
 string? GetValidationError(string name)
 {
@@ -174,7 +185,7 @@ string? GetValidationError(string name)
     if (!int.TryParse(rightSide, out int number) || number < minNumber || number > maxNumber)
         return $"The numeric part must be between {minNumber} and {maxNumber}.";
 
-    return null; // no error = valid
+    return null;
 }
 
 // Render Functions
