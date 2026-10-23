@@ -39,8 +39,7 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
         };
         Console.WriteLine();
 
-        if (items.TryGetValue(int.Parse(input), out var selected))
-        {
+        if (int.TryParse(input, out int choice) && items.TryGetValue(choice, out var selected))        {
             RenderTextInline(selected.Label);
             Console.ForegroundColor = ConsoleColor.DarkGray;
             RenderText(" (leave input empty to go back)");
@@ -135,6 +134,7 @@ void DeleteProduct()
             RenderHeading("No products found");
         }
 
+        RenderTextInline("Enter product to delete: ");
         string product = NormalizeString(Console.ReadLine() ?? "");
         if (product == "") return;
 
