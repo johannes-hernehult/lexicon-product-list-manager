@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 //
 // List<string> products = [];
@@ -102,30 +103,46 @@
 // --- Main loop
 
 List<string> products = new List<string>();
-List<string> menuItems = new List<string>
-{
-    "1 - Add Product",
-    "2 - View Products",
-    "3 - Search Product",
-    "0 - Exit",
-};
-string menuSelection = "";
 
-do
+RunMenu("Product List Manager", new()
 {
-    RenderMenu(menuItems);
-    RenderTextInline("Select menu item: ");
-    menuSelection = Console.ReadLine().Trim();
+    [1] = ("Add Product", AddProduct),
+    [2] = ("View Products", ViewProducts),
+    [3] = ("Search Product", SearchProduct),
+});
 
-    switch (menuSelection)
+void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, string exitLabel = "Exit")
+{
+    while (true)
     {
-        case "1": AddProduct(); break;
-        case "2": ViewProducts(); break;
-        case "3": SearchProduct(); break;
-        case "0": RenderFeedback("Shutting down...", FeedbackType.Info); break;
-        default: RenderFeedback($"Invalid selection: {menuSelection}", FeedbackType.Error); break;
+        // Render
+        RenderDivider();
+        RenderHeading(title);
+        foreach (var (key, item) in items)
+            RenderText($"{key} - {item.Label}");
+        RenderText($"0 - {exitLabel}");
+        RenderDivider();
+
+        // Input
+        RenderTextInline("Select menu item: ");
+        string input = (Console.ReadLine() ?? "").Trim();
+        RenderDivider();
+        if (input == "0") return;
+
+        if (items.TryGetValue(int.Parse(input), out var selected))
+        {
+            RenderTextInline(selected.Label);
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            RenderText(" (leave input empty to go back)");
+            Console.ResetColor();
+            selected.Run();
+        }
+        else
+            RenderFeedback($"Invalid selection: {input}", FeedbackType.Error);
     }
-} while (menuSelection != "0");
+}
+
+;
 
 // Feature Functions
 void AddProduct()
@@ -134,6 +151,7 @@ void AddProduct()
     {
         RenderTextInline("Product name: ");
         string product = NormalizeString(Console.ReadLine() ?? "");
+        if (product == "") return;
 
         string? error = GetValidationError(product);
         if (error is not null)
@@ -144,29 +162,23 @@ void AddProduct()
 
         products.Add(product);
         RenderFeedback($"{product} added.", FeedbackType.Success);
-        return;
     }
 }
 
 void ViewProducts()
 {
-    RenderDivider();
-    RenderHeading("Products");
     RenderList(products);
-    RenderDivider();
-    RenderText("Press enter to go back to main menu");
-    Console.ReadLine();
+    string input = NormalizeString(Console.ReadLine() ?? "");
 }
 
 void SearchProduct()
 {
-    RenderDivider();
     while (true)
     {
-        RenderHeading("Search a product");
         RenderTextInline("Product name: ");
         //Get input
         string input = NormalizeString(Console.ReadLine() ?? "");
+        if (input == "") return;
 
         //Search data for matches
         List<string> searchResults = products.Where(product => product.Contains(input)).ToList();
@@ -184,13 +196,6 @@ void SearchProduct()
             RenderHeading("Search results:");
             RenderList(searchResults);
         }
-
-        //Loop until user exits
-
-        Console.WriteLine();
-        RenderText("Enter empty input to exit");
-        //Switch statement between search, exit or invalid
-        if (input == "") return;
     }
 }
 
@@ -242,7 +247,6 @@ void RenderHeading(string text)
     Console.WriteLine(text);
     Console.ResetColor();
 }
-
 
 void RenderText(string text)
 {
