@@ -1,10 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 
-//--------------------------------------------------------------------------------------
-// Rewrite for level 4
-//--------------------------------------------------------------------------------------
-
-// --- Main loop
+// Main loop
 
 List<string> products = new List<string>();
 
@@ -21,7 +17,6 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
 {
     while (true)
     {
-        // Render
         RenderDivider();
         RenderHeading(title);
         foreach (var (key, item) in items)
@@ -29,7 +24,6 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
         RenderText($"0 - {exitLabel}");
         RenderDivider();
 
-        // Input
         RenderTextInline("Select menu item: ");
         string input = (Console.ReadLine() ?? "").Trim();
         if (input == "0")
@@ -40,7 +34,6 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
 
         Console.WriteLine();
 
-        // TryParse() is needed to safely fail letter inputs
         if (int.TryParse(input, out int choice) && items.TryGetValue(choice, out var selected))
         {
             RenderTextInline(selected.Label);
@@ -56,7 +49,8 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
     }
 }
 
-// Feature Functions
+// Feature functions
+
 void AddProduct()
 {
     while (true)
@@ -72,7 +66,6 @@ void AddProduct()
             continue;
         }
 
-        //Check if product exists 
         if (products.Contains(product))
         {
             RenderFeedback("Product already exists.", FeedbackType.Warning);
@@ -97,23 +90,19 @@ void SearchProduct()
     while (true)
     {
         RenderTextInline("Search: ");
-        //Get input
         string input = NormalizeString(Console.ReadLine() ?? "");
         if (input == "") return;
 
-        //Search data for matches
         List<string> searchResults = products.Where(product => product.Contains(input)).ToList();
 
         if (searchResults.Count == 0)
         {
-            //If no results render message saying no result
             Console.ForegroundColor = ConsoleColor.DarkRed;
             RenderText("No results found... Try again!");
             Console.ResetColor();
         }
         else
         {
-            //Render results
             RenderHeading("Search results:");
             RenderList(searchResults);
             Console.WriteLine();
@@ -141,7 +130,6 @@ void DeleteProduct()
         string product = NormalizeString(Console.ReadLine() ?? "");
         if (product == "") return;
 
-        //Check if product exists
         if (!products.Contains(product))
         {
             RenderFeedback($"Product not found: {product}", FeedbackType.Error);
@@ -164,6 +152,8 @@ void Statistics()
     else
     {
         List<int> productNumbers = new List<int>();
+
+        // Extract the numeric part of each product name.
         foreach (var product in products)
         {
             int dashIndex = product.IndexOf('-');
@@ -190,7 +180,8 @@ void Statistics()
     }
 }
 
-// Helper Functions
+// Helper functions
+
 string NormalizeString(string text)
 {
     return text.Trim().ToUpper();
@@ -223,7 +214,8 @@ string? GetValidationError(string name)
     return null;
 }
 
-// Render Functions
+// Rendering functions
+
 void RenderHeading(string text)
 {
     Console.ForegroundColor = ConsoleColor.Gray;
