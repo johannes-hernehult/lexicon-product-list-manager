@@ -50,8 +50,6 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
     }
 }
 
-;
-
 // Feature Functions
 void AddProduct()
 {
@@ -132,7 +130,7 @@ void DeleteProduct()
         //Check if product exists
         if (!products.Contains(product))
         {
-            RenderFeedback($"Product  not found: {product}", FeedbackType.Error);
+            RenderFeedback($"Product not found: {product}", FeedbackType.Error);
         }
         else
         {
@@ -158,7 +156,7 @@ void Statistics()
             string number = product.Substring(dashIndex + 1);
             productNumbers.Add(int.Parse(number));
         }
-        
+
         while (true)
         {
             RenderTextInline($"Total products: {products.Count()}");
@@ -212,14 +210,6 @@ string? GetValidationError(string name)
 }
 
 // Render Functions
-void RenderMenu(List<string> items)
-{
-    RenderDivider();
-    RenderHeading("Product List Manager");
-    RenderList(items);
-    RenderDivider();
-}
-
 void RenderHeading(string text)
 {
     Console.ForegroundColor = ConsoleColor.Gray;
