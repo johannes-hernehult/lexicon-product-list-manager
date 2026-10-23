@@ -36,10 +36,13 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
         {
             RenderHeading("Shutting down...");
             return;
-        };
+        }
+
         Console.WriteLine();
 
-        if (int.TryParse(input, out int choice) && items.TryGetValue(choice, out var selected))        {
+        // TryParse() is needed to safely fail letter inputs
+        if (int.TryParse(input, out int choice) && items.TryGetValue(choice, out var selected))
+        {
             RenderTextInline(selected.Label);
             Console.ForegroundColor = ConsoleColor.DarkGray;
             RenderText(" (leave input empty to go back)");
@@ -75,7 +78,7 @@ void AddProduct()
             RenderFeedback("Product already exists.", FeedbackType.Warning);
             continue;
         }
-        
+
         products.Add(product);
         RenderFeedback($"{product} added.", FeedbackType.Success);
     }
@@ -84,9 +87,9 @@ void AddProduct()
 void ViewProducts()
 {
     if (products.Count == 0) RenderHeading("No products found");
-
+    products.Sort();
     RenderList(products);
-    string input = NormalizeString(Console.ReadLine() ?? "");
+    Console.ReadLine();
 }
 
 void SearchProduct()
