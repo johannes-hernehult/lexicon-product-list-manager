@@ -66,6 +66,13 @@ void AddProduct()
             continue;
         }
 
+        //Check if product exists 
+        if (products.Contains(product))
+        {
+            RenderFeedback("Product already exists.", FeedbackType.Warning);
+            continue;
+        }
+        
         products.Add(product);
         RenderFeedback($"{product} added.", FeedbackType.Success);
     }
