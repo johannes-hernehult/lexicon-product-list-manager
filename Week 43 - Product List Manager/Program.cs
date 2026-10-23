@@ -13,7 +13,8 @@ RunMenu("Product List Manager", new()
     [1] = ("Add Product", AddProduct),
     [2] = ("View Products", ViewProducts),
     [3] = ("Search Product", SearchProduct),
-    [4] = ("Delete a Product", DeleteProduct)
+    [4] = ("Delete a Product", DeleteProduct),
+    [5] = ("Statistics", Statistics),
 });
 
 void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, string exitLabel = "Exit")
@@ -104,6 +105,7 @@ void SearchProduct()
             //Render results
             RenderHeading("Search results:");
             RenderList(searchResults);
+            Console.WriteLine();
         }
     }
 }
@@ -123,7 +125,7 @@ void DeleteProduct()
         {
             RenderHeading("No products found");
         }
-        
+
         string product = NormalizeString(Console.ReadLine() ?? "");
         if (product == "") return;
 
@@ -136,6 +138,42 @@ void DeleteProduct()
         {
             products.Remove(product);
             RenderFeedback($"{product} deleted.", FeedbackType.Success);
+        }
+    }
+}
+
+void Statistics()
+{
+    if (products.Count == 0)
+    {
+        RenderHeading("No products found");
+        Console.ReadLine();
+    }
+    else
+    {
+        List<int> productNumbers = new List<int>();
+        foreach (var product in products)
+        {
+            int dashIndex = product.IndexOf('-');
+            string number = product.Substring(dashIndex + 1);
+            productNumbers.Add(int.Parse(number));
+        }
+        
+        while (true)
+        {
+            RenderTextInline($"Total products: {products.Count()}");
+            Console.WriteLine();
+            RenderTextInline($"Lowest product number: {productNumbers.Min()}");
+
+            Console.WriteLine();
+            RenderTextInline($"Highest product number: {productNumbers.Max()}");
+
+            Console.WriteLine();
+            RenderTextInline($"Average product number: {Math.Round(productNumbers.Average())}");
+
+            Console.WriteLine();
+            string input = NormalizeString(Console.ReadLine() ?? "");
+            if (input == "") return;
         }
     }
 }
