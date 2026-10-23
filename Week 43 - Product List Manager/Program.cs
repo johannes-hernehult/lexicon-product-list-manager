@@ -97,9 +97,7 @@ void SearchProduct()
 
         if (searchResults.Count == 0)
         {
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            RenderText("No results found... Try again!");
-            Console.ResetColor();
+            RenderFeedback("No results found... Try again!", FeedbackType.Warning);
         }
         else
         {
