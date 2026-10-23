@@ -150,6 +150,7 @@ void AddProduct()
 
 void ViewProducts()
 {
+    RenderDivider();
     RenderHeading("Products");
     RenderList(products);
     RenderDivider();
@@ -159,10 +160,11 @@ void ViewProducts()
 
 void SearchProduct()
 {
+    RenderDivider();
     while (true)
     {
         RenderHeading("Search a product");
-
+        RenderTextInline("Product name: ");
         //Get input
         string input = NormalizeString(Console.ReadLine() ?? "");
 
@@ -172,13 +174,14 @@ void SearchProduct()
         if (searchResults.Count == 0)
         {
             //If no results render message saying no result
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             RenderText("No results found... Try again!");
+            Console.ResetColor();
         }
         else
         {
             //Render results
-            Console.WriteLine();
-            RenderText("Search results:");
+            RenderHeading("Search results:");
             RenderList(searchResults);
         }
 
@@ -228,11 +231,18 @@ string? GetValidationError(string name)
 void RenderMenu(List<string> items)
 {
     RenderDivider();
-    RenderText("Main menu");
-    RenderDivider();
+    RenderHeading("Product List Manager");
     RenderList(items);
     RenderDivider();
 }
+
+void RenderHeading(string text)
+{
+    Console.ForegroundColor = ConsoleColor.Gray;
+    Console.WriteLine(text);
+    Console.ResetColor();
+}
+
 
 void RenderText(string text)
 {
@@ -242,13 +252,6 @@ void RenderText(string text)
 void RenderTextInline(string text)
 {
     Console.Write(text);
-}
-
-void RenderHeading(string text)
-{
-    RenderDivider();
-    RenderText(text);
-    RenderDivider();
 }
 
 void RenderList(List<string> list)
@@ -261,11 +264,14 @@ void RenderList(List<string> list)
 
 void RenderDivider()
 {
-    Console.WriteLine("-----------------------------------");
+    Console.ForegroundColor = ConsoleColor.DarkGray;
+    Console.WriteLine("-------------------------------------------------");
+    Console.ResetColor();
 }
 
 void RenderFeedback(string text, FeedbackType type)
 {
+    RenderDivider();
     switch (type)
     {
         case FeedbackType.Error: Console.ForegroundColor = ConsoleColor.Red; break;
@@ -274,7 +280,6 @@ void RenderFeedback(string text, FeedbackType type)
         case FeedbackType.Info: Console.ForegroundColor = ConsoleColor.DarkCyan; break;
     }
 
-    RenderDivider();
     RenderText($"{type.ToString().ToUpper()}: {text}");
     RenderDivider();
     Console.ResetColor();
@@ -287,9 +292,3 @@ internal enum FeedbackType
     Success,
     Info
 }
-
-/*
- * TODO:
- * Make a reusable menu generator
- *
- */
