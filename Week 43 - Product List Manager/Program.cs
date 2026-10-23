@@ -106,6 +106,7 @@ List<string> menuItems = new List<string>
 {
     "1 - Add Product",
     "2 - View Products",
+    "3 - Search Product",
     "0 - Exit",
 };
 string menuSelection = "";
@@ -120,6 +121,7 @@ do
     {
         case "1": AddProduct(); break;
         case "2": ViewProducts(); break;
+        case "3": SearchProduct(); break;
         case "0": RenderFeedback("Shutting down...", FeedbackType.Info); break;
         default: RenderFeedback($"Invalid selection: {menuSelection}", FeedbackType.Error); break;
     }
@@ -153,6 +155,40 @@ void ViewProducts()
     RenderDivider();
     RenderText("Press enter to go back to main menu");
     Console.ReadLine();
+}
+
+void SearchProduct()
+{
+    while (true)
+    {
+        RenderHeading("Search a product");
+
+        //Get input
+        string input = NormalizeString(Console.ReadLine() ?? "");
+
+        //Search data for matches
+        List<string> searchResults = products.Where(product => product.Contains(input)).ToList();
+
+        if (searchResults.Count == 0)
+        {
+            //If no results render message saying no result
+            RenderText("No results found... Try again!");
+        }
+        else
+        {
+            //Render results
+            Console.WriteLine();
+            RenderText("Search results:");
+            RenderList(searchResults);
+        }
+
+        //Loop until user exits
+
+        Console.WriteLine();
+        RenderText("Enter empty input to exit");
+        //Switch statement between search, exit or invalid
+        if (input == "") return;
+    }
 }
 
 // Helper Functions
@@ -251,3 +287,9 @@ internal enum FeedbackType
     Success,
     Info
 }
+
+/*
+ * TODO:
+ * Make a reusable menu generator
+ *
+ */
