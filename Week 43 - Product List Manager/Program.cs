@@ -1,94 +1,191 @@
 ﻿using System.Text.RegularExpressions;
 
-List<string> products = [];
+//
+// List<string> products = [];
+//
+// const int minNumber = 200;
+// const int maxNumber = 500;
+// const string divider = "----------------------------------------";
+//
+//
+// PrintHeading("PRODUCT LIST MANAGER - LEVEL 4");
+//
+// while (true)
+// {
+//     Console.Write("Enter a product name: ");
+//     string input = Console.ReadLine() ?? "";
+//
+//     input = input.Trim().ToUpper(); //Normalizing input
+//
+//     if (input == "EXIT") break;
+//
+//     if (!TryAcceptProduct(input)) continue;
+//
+//     products.Add(input);
+// }
+//
+// products.Sort();
+//
+// PrintProducts(products);
+//
+// //Helper functions
+// static string? GetValidationError(string input)
+// {
+//     if (string.IsNullOrWhiteSpace(input))
+//         return "ERROR: Input cannot be empty.";
+//
+//     int dashIndex = input.IndexOf('-');
+//     if (dashIndex == -1)
+//         return "ERROR: Product must contain a dash (-).";
+//
+//     string leftSide = input.Substring(0, dashIndex);
+//     string rightSide = input.Substring(dashIndex + 1);
+//
+//     if (!Regex.IsMatch(leftSide, @"^[A-Z]+\z"))
+//         return "ERROR: The left side must contain letters only.";
+//
+//     if (!Regex.IsMatch(rightSide, @"^[0-9]+\z"))
+//         return "ERROR: The right side must contain numbers only.";
+//
+//     if (!int.TryParse(rightSide, out int number) || number < minNumber || number > maxNumber)
+//         return $"ERROR: The numeric part must be between {minNumber} and {maxNumber}.";
+//
+//     return null;
+// }
+//
+// static bool TryAcceptProduct(string input)
+// {
+//     string? error = GetValidationError(input);
+//     if (error is null)
+//         return true;
+//
+//     Console.ForegroundColor = ConsoleColor.Red;
+//     Console.WriteLine(error);
+//     Console.ResetColor();
+//     return false;
+// }
+//
+// static void PrintHeading(string title)
+// {
+//     Console.WriteLine(divider);
+//     Console.WriteLine(title);
+//     Console.WriteLine(divider);
+// }
+//
+// static void PrintProducts(List<string> prod)
+// {
+//     Console.ForegroundColor = ConsoleColor.Blue;
+//     Console.WriteLine();
+//
+//     if (prod.Count == 0)
+//     {
+//         PrintHeading("No products found.");
+//     }
+//     else
+//     {
+//         PrintHeading("All products:");
+//
+//         foreach (string product in prod)
+//             Console.WriteLine(" - " + product);
+//
+//         Console.WriteLine(divider);
+//     }
+//
+//     Console.ResetColor();
+// }
 
-const int minNumber = 200;
-const int maxNumber = 500;
-const string divider = "----------------------------------------";
 
+//--------------------------------------------------------------------------------------
+// Rewrite for level 4
+//--------------------------------------------------------------------------------------
 
-PrintHeading("PRODUCT LIST MANAGER - LEVEL 4");
+// --- Main loop
 
-while (true)
+List<string> products = new List<string>();
+List<string> menuItems = new List<string>
 {
-    Console.Write("Enter a product name: ");
-    string input = Console.ReadLine() ?? "";
+    "1 - Add Product",
+    "0 - Exit",
+};
+string menuSelection = "";
 
-    input = input.Trim().ToUpper(); //Normalizing input
-
-    if (input == "EXIT") break;
-
-    if (!TryAcceptProduct(input)) continue;
-
-    products.Add(input);
-}
-
-products.Sort();
-
-PrintProducts(products);
-
-//Helper functions
-static string? GetValidationError(string input)
+do
 {
-    if (string.IsNullOrWhiteSpace(input))
-        return "ERROR: Input cannot be empty.";
+    RenderMenu(menuItems);
+    menuSelection = Console.ReadLine();
 
-    int dashIndex = input.IndexOf('-');
-    if (dashIndex == -1)
-        return "ERROR: Product must contain a dash (-).";
+    switch (menuSelection)
+    {
+        case "1": AddProduct(); break;
+        case "0": RenderFeedback("Shutting down...", FeedbackType.Info);break;
+        default: RenderFeedback($"Invalid selection: {menuSelection}", FeedbackType.Error); break;
+    }
+} while (menuSelection != "0");
 
-    string leftSide = input.Substring(0, dashIndex);
-    string rightSide = input.Substring(dashIndex + 1);
-
-    if (!Regex.IsMatch(leftSide, @"^[A-Z]+\z"))
-        return "ERROR: The left side must contain letters only.";
-
-    if (!Regex.IsMatch(rightSide, @"^[0-9]+\z"))
-        return "ERROR: The right side must contain numbers only.";
-
-    if (!int.TryParse(rightSide, out int number) || number < minNumber || number > maxNumber)
-        return $"ERROR: The numeric part must be between {minNumber} and {maxNumber}.";
+// Feature Functions
+void AddProduct()
+{
     
-    return null;
 }
 
-static bool TryAcceptProduct(string input)
+// Helper Functions
+string NormalizeString(string text)
 {
-    string? error = GetValidationError(input);
-    if (error is null)
-        return true;
-
-    Console.ForegroundColor = ConsoleColor.Red;
-    Console.WriteLine(error);
-    Console.ResetColor();
-    return false;
+    return text.Trim().ToUpper();
 }
 
-static void PrintHeading(string title)
+// Render Functions
+void RenderMenu(List<string> items)
 {
-    Console.WriteLine(divider);
-    Console.WriteLine(title);
-    Console.WriteLine(divider);
+    RenderDivider();
+    RenderText("Main menu");
+    RenderDivider();
+    RenderList(items);
+    RenderDivider();
 }
-
-static void PrintProducts(List<string> prod)
+void RenderText(string text)
 {
-    Console.ForegroundColor = ConsoleColor.Blue;
-    Console.WriteLine();
-
-    if (prod.Count == 0)
+    Console.WriteLine(text);
+}
+void RenderTextInline(string text)
+{
+    Console.Write(text);
+}
+void RenderHeading(string text)
+{
+    RenderDivider();
+    RenderText(text);
+    RenderDivider();
+}
+void RenderList(List<string> list)
+{
+    foreach (var item in list)
     {
-        PrintHeading("No products found.");
+        RenderText(item);
     }
-    else
+}
+void RenderDivider()
+{
+    Console.WriteLine("-----------------------------------");
+}
+void RenderFeedback(string text, FeedbackType type)
+{
+    switch (type)
     {
-        PrintHeading("All products:");
-
-        foreach (string product in prod)
-            Console.WriteLine(" - " + product);
-
-        Console.WriteLine(divider);
+        case FeedbackType.Error: Console.ForegroundColor = ConsoleColor.Red; break;
+        case FeedbackType.Warning: Console.ForegroundColor = ConsoleColor.DarkYellow; break;
+        case FeedbackType.Success: Console.ForegroundColor = ConsoleColor.Green; break;
+        case FeedbackType.Info: Console.ForegroundColor = ConsoleColor.DarkCyan; break;
     }
-
+    RenderDivider();
+    RenderText($"{type.ToString().ToUpper()}: {text}");
+    RenderDivider();
     Console.ResetColor();
+}
+internal enum FeedbackType
+{
+    Error,
+    Warning,
+    Success,
+    Info
 }
