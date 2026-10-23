@@ -32,7 +32,11 @@ void RunMenu(string title, Dictionary<int, (string Label, Action Run)> items, st
         // Input
         RenderTextInline("Select menu item: ");
         string input = (Console.ReadLine() ?? "").Trim();
-        if (input == "0") return;
+        if (input == "0")
+        {
+            RenderHeading("Shutting down...");
+            return;
+        };
         Console.WriteLine();
 
         if (items.TryGetValue(int.Parse(input), out var selected))
