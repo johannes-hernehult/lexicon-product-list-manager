@@ -117,7 +117,7 @@ do
     switch (menuSelection)
     {
         case "1": AddProduct(); break;
-        case "0": RenderFeedback("Shutting down...", FeedbackType.Info);break;
+        case "0": RenderFeedback("Shutting down...", FeedbackType.Info); break;
         default: RenderFeedback($"Invalid selection: {menuSelection}", FeedbackType.Error); break;
     }
 } while (menuSelection != "0");
@@ -125,13 +125,56 @@ do
 // Feature Functions
 void AddProduct()
 {
-    
+    while (true)
+    {
+        RenderTextInline("Product name: ");
+        string product = NormalizeString(Console.ReadLine() ?? "");
+
+        string? error = GetValidationError(product);
+        if (error is not null)
+        {
+            RenderFeedback(error, FeedbackType.Error);
+            continue; 
+        }
+
+        products.Add(product);
+        RenderFeedback($"{product} added.", FeedbackType.Success);
+        return; 
+    }
 }
 
 // Helper Functions
 string NormalizeString(string text)
 {
     return text.Trim().ToUpper();
+}
+
+
+string? GetValidationError(string name)
+{
+    const int minNumber = 200;
+    const int maxNumber = 500;
+
+    if (string.IsNullOrWhiteSpace(name))
+        return "Product name can not be empty";
+
+    int dashIndex = name.IndexOf('-');
+    if (dashIndex == -1)
+        return "Product name must include a dash '-'";
+
+    string leftSide = name.Substring(0, dashIndex);
+    string rightSide = name.Substring(dashIndex + 1);
+
+    if (!Regex.IsMatch(leftSide, @"^[A-Z]+\z"))
+        return "Product name can only have letters before the dash '-'";
+
+    if (!Regex.IsMatch(rightSide, @"^[0-9]+\z"))
+        return "Product name can only have numbers after the dash '-'";
+
+    if (!int.TryParse(rightSide, out int number) || number < minNumber || number > maxNumber)
+        return $"The numeric part must be between {minNumber} and {maxNumber}.";
+
+    return null; // no error = valid
 }
 
 // Render Functions
@@ -143,20 +186,24 @@ void RenderMenu(List<string> items)
     RenderList(items);
     RenderDivider();
 }
+
 void RenderText(string text)
 {
     Console.WriteLine(text);
 }
+
 void RenderTextInline(string text)
 {
     Console.Write(text);
 }
+
 void RenderHeading(string text)
 {
     RenderDivider();
     RenderText(text);
     RenderDivider();
 }
+
 void RenderList(List<string> list)
 {
     foreach (var item in list)
@@ -164,10 +211,12 @@ void RenderList(List<string> list)
         RenderText(item);
     }
 }
+
 void RenderDivider()
 {
     Console.WriteLine("-----------------------------------");
 }
+
 void RenderFeedback(string text, FeedbackType type)
 {
     switch (type)
@@ -177,11 +226,13 @@ void RenderFeedback(string text, FeedbackType type)
         case FeedbackType.Success: Console.ForegroundColor = ConsoleColor.Green; break;
         case FeedbackType.Info: Console.ForegroundColor = ConsoleColor.DarkCyan; break;
     }
+
     RenderDivider();
     RenderText($"{type.ToString().ToUpper()}: {text}");
     RenderDivider();
     Console.ResetColor();
 }
+
 internal enum FeedbackType
 {
     Error,
